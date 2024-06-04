@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    //
+    // function to create user
+    public function createUser(){
+
+    }
 }
