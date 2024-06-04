@@ -10,7 +10,7 @@ class UserController extends Controller
     // function to create user
     public function createUser(Request $request){
 
-        return response()->json(['atatus' => true, 'message' => "Hello World"]);
+        return response()->json(['atatus' => true, 'message' => "Hello World", 'data' => $request->all()]);
 
     }
 }
