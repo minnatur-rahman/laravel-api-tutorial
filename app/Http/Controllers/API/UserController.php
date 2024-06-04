@@ -15,9 +15,18 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'password' => bcrypt($request->password),
         ]);
 
-        return response()->json(['atatus' => true, 'message' => "Hello World", 'data' => $request->all()]);
+        if($user->id){
+            $result = array('status' => true, 'message' => "User Created", 'data' => $user);
+            $responseCode = 200;
+        }else{
+            $result = array('status' => false, 'message' => "Something went wrong");
+            $responseCode = 400;
+        }
+
+        return response()->json($result, $responseCode);
 
     }
 }
