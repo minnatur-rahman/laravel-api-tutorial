@@ -67,7 +67,12 @@ class UserController extends Controller
 }
 
 // function to update user
-public function updateUser(Request $request){
+public function updateUser(Request $request, $id){
+
+    $user = User::find($id);
+    if(!$user){
+        return response()->json(['status' => false, 'message' => "Users not found"], 404);
+    }
 
     // validation
     $validator = Validator::make($request->all(),[
@@ -82,11 +87,13 @@ public function updateUser(Request $request){
         return response()->json($result, 400); //bad request
     }
 
+    // update code
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->phone = $request->phone;
+    $user->save();
 
-
-
-
-    return response()->json($result,$responseCode);
+    $result = array('status' => true, 'message' => "User has been updated successfully !", 'data' => $user);
 
 }
 }
