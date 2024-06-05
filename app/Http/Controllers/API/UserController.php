@@ -15,14 +15,14 @@ class UserController extends Controller
         // validation
         $validator = Validator::make($request->all(),[
             'name' => "required|string",
-            'email' => "required|string",
+            'email' => "required|string|unique:users",
             'phone' => "required|numeric",
             'password' => "required|min:6"
         ]);
 
         if($validator->fails()){
-            $result = array('status' => false, 'message' => "Validation Error Occured", 'error_message' => $validator->error());
-            return response()->json($result,$responseCode);
+            $result = array('status' => false, 'message' => "Validation Error Occured", 'error_message' => $validator->errors());
+            return response()->json($result, 400); //bad request
         }
 
         $user = user::create([
@@ -34,7 +34,7 @@ class UserController extends Controller
 
         if($user->id){
             $result = array('status' => true, 'message' => "User Created", 'data' => $user);
-            $responseCode = 200;
+            $responseCode = 200; //success request
         }else{
             $result = array('status' => false, 'message' => "Something went wrong");
             $responseCode = 400;
