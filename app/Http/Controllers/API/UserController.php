@@ -26,7 +26,7 @@ class UserController extends Controller
             $responseCode = 400;
         }
 
-        return response()->json($result, $responseCode);
+        return response()->json($result,$responseCode);
 
     }
 }
