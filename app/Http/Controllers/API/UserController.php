@@ -77,7 +77,7 @@ public function updateUser(Request $request, $id){
     // validation
     $validator = Validator::make($request->all(),[
         'name' => "required|string",
-        'email' => "required|string|unique:users",
+        'email' => "required|string|unique:users,email,",$id,
         'phone' => "required|numeric",
 
     ]);
