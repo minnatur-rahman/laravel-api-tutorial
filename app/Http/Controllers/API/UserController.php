@@ -56,6 +56,10 @@ class UserController extends Controller
      // function to return all users
      public function getUserDetail($id){
         $user = User::find($id);
+        if(!$user){
+            return response()->json(['status' => false, 'message' => "Users not found"], 404);
+        }
+
         $result = array('status' => true, 'message' => "User found", 'data' => $user);
         $responseCode = 200; //success request
         return response()->json($result,$responseCode);
