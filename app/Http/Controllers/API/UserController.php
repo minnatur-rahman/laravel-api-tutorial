@@ -52,4 +52,13 @@ class UserController extends Controller
             return response()->json($result,$responseCode);
 
     }
+
+     // function to return all users
+     public function getUserDetail($id){
+        $user = User::find($id);
+        $result = array('status' => true, 'message' => "User found", 'data' => $user);
+        $responseCode = 200; //success request
+        return response()->json($result,$responseCode);
+
+}
 }
