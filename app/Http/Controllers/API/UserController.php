@@ -43,4 +43,13 @@ class UserController extends Controller
         return response()->json($result,$responseCode);
 
     }
+
+    // function to return all users
+    public function getUsers(){
+            $users = User::all();
+            $result = array('status' => true, 'message' => count($users). "user(s) fetched", 'data' => $users);
+            $responseCode = 200; //success request
+            return response()->json($result,$responseCode);
+
+    }
 }
