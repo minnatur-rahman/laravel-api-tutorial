@@ -16,7 +16,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(),[
             'name' => "required|string",
             'email' => "required|string|unique:users",
-            'phone' => "required|numeric",
+            'phone' => "required|numeric|digits:11",
             'password' => "required|min:6"
         ]);
 
@@ -78,7 +78,7 @@ public function updateUser(Request $request, $id){
     $validator = Validator::make($request->all(),[
         'name' => "required|string",
         'email' => "required|string|unique:users,email,",$id,
-        'phone' => "required|numeric",
+        'phone' => "required|numeric|digits:11"
 
     ]);
 
@@ -94,6 +94,19 @@ public function updateUser(Request $request, $id){
     $user->save();
 
     $result = array('status' => true, 'message' => "User has been updated successfully !", 'data' => $user);
+    return response()->json($result, 200);
+}
 
+// function to delete user
+public function deleteUser($id){
+
+    $user = User::find($id);
+    if(!$user){
+        return response()->json(['status' => false, 'message' => "Users not found"], 404);
+    }
+
+    $user->delete();
+    $result = array('status' => true, 'message' => "User has been deleted successfully !");
+    return response()->json($result, 200);
 }
 }
