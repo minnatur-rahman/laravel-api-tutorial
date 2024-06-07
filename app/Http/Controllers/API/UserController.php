@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+
+
 
 class UserController extends Controller
 {
@@ -121,5 +124,19 @@ class UserController extends Controller
             'email' => 'required',
             'password' => 'required'
         ]);
+
+        if($validator->fails()){
+            return response()->json(['atatus' =>false, 'message' => "Validation error occured", 'errors' => $validator->errors()], 401);
+        }
+
+        $credentials = $request->only("email", "password");
+
+        if(Auth::attempt($credentials)){
+            $user = Auth::user();
+            $token = $user->createToken('MyApp')->accessToken;
+            return response()->json(['status' => true, 'message' => "Login successfull", 'data' => $token], 200);
+        }
+
+        return response()->json(['status' => false, 'message' => "Invalid login credentials"], 401);
     }
 }
