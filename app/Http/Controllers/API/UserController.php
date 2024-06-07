@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -46,14 +47,18 @@ class UserController extends Controller
 
     // function to return all users
     public function getUsers(){
+        try{
             $users = User::all();
             $result = array('status' => true, 'message' => count($users). "user(s) fetched", 'data' => $users);
-            $responseCode = 200; //success request
+            $responseCode = 200;
             return response()->json($result,$responseCode);
-
+        }catch(Exception $e){
+            $result = array('status' => false, 'message' => "API faild due to an error", 'error' => $e->getMessage());
+            return response()->json($result, 500);
+        }
     }
 
-     // function to return all users
+     // function to return all users detail
      public function getUserDetail($id){
         $user = User::find($id);
         if(!$user){
@@ -64,10 +69,10 @@ class UserController extends Controller
         $responseCode = 200; //success request
         return response()->json($result,$responseCode);
 
-}
+    }
 
-// function to update user
-public function updateUser(Request $request, $id){
+    // function to update user
+    public function updateUser(Request $request, $id){
 
     $user = User::find($id);
     if(!$user){
@@ -95,10 +100,10 @@ public function updateUser(Request $request, $id){
 
     $result = array('status' => true, 'message' => "User has been updated successfully !", 'data' => $user);
     return response()->json($result, 200);
-}
+    }
 
-// function to delete user
-public function deleteUser($id){
+    // function to delete user
+    public function deleteUser($id){
 
     $user = User::find($id);
     if(!$user){
@@ -108,5 +113,5 @@ public function deleteUser($id){
     $user->delete();
     $result = array('status' => true, 'message' => "User has been deleted successfully !");
     return response()->json($result, 200);
-}
+    }
 }
