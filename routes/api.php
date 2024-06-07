@@ -15,4 +15,4 @@ Route::get('get-user-detail/{id}', [UserController::class, 'getUserDetail']);
 Route::put('update-user/{id}', [UserController::class, 'updateUser']);
 Route::delete('delete-user/{id}', [UserController::class, 'deleteUser']);
 
-Route::post('login', [UserController::class, 'login'])
+Route::post('login', [UserController::class, 'login']);

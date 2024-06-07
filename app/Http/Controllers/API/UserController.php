@@ -114,4 +114,12 @@ class UserController extends Controller
     $result = array('status' => true, 'message' => "User has been deleted successfully !");
     return response()->json($result, 200);
     }
+
+    // login function
+    public function login(Request $request){
+        $validator = Validator::make($request->all(), [
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+    }
 }
